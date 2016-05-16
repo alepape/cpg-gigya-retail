@@ -1,3 +1,9 @@
+// CONSTANTS
+
+var CAMERA_SHOP = 1;
+var PET_SHOP = 2;
+var CPG_SHOP = 3;
+
 // VARIABLES
 
 var pagetype = '';
@@ -14,7 +20,7 @@ var photogType = "";
 var gearUsage = "";
 
 // Store depending configuration
-var setup_done = false;
+var setup_done = -1; // 1=camera, 2=pet, 3=cpg
 var loginSSet = "";
 var proproSSet = "";
 var proproStartScreen = "";
@@ -31,6 +37,19 @@ var exptime = null;
 // Mobile mgt
 var isMobile = false; //initiate as false
 
+function setupCpgStore(){
+    console.log('CPG STORE');
+    loginSSet = "CPG-RegistrationLogin";
+    proproSSet = "progressive-profiling"; 
+    proproStartScreen = "skin-capture"; 
+    profileSSet = "CPG-ProfileUpdate";
+    embedProfileSSet = "screen-set-a";
+    embedProfileStartScreen = "edit-profile1";
+    reauthSSet = "Pet-ReAuthentication";
+    nlSSet = "NL-RegistrationLogin";
+    setup_done = CPG_SHOP;
+}
+
 function setupCameraStore(){
     console.log('CAMERA STORE');
     loginSSet = "Retail-RegistrationLogin";
@@ -41,6 +60,7 @@ function setupCameraStore(){
     embedProfileStartScreen = "edit-profile1";
     reauthSSet = "Pet-ReAuthentication";
     nlSSet = "NL-RegistrationLogin";
+    setup_done = CAMERA_SHOP;
 }
 
 function setupPetStore(){
@@ -53,11 +73,19 @@ function setupPetStore(){
     embedProfileStartScreen = "edit-profile1";
     reauthSSet = "Pet-ReAuthentication";
     nlSSet = "NL-RegistrationLogin";
+    setup_done = PET_SHOP;
 }
 
 function setupWhichStore(){
-    if (!setup_done) {
-        switch (CURRENT_ROOT_CATEGORY) {
+    if (setup_done == -1) {
+        // specific site
+        if (location.hostname == "cpg.gigyaretail.com") {
+            setupCpgStore();
+            return 0;
+        }
+
+        // generic site
+        switch () {
         case 3:
             setupCameraStore();
             break;
@@ -67,7 +95,6 @@ function setupWhichStore(){
         default:
             alert("This store content is not supported");
         }
-        setup_done = true;        
     }
 }
 
@@ -181,12 +208,13 @@ function processLogin(eventObj) {
         // STEP 1 - determining if we should show it based on previously captured data
         var captured_data = "";
         try {
-            if (CURRENT_ROOT_CATEGORY==9) {
+            if (setup_done==PET_SHOP) {
                 captured_data = ""+eventObj.data.pet.pets[0].name;
             }
-            if (CURRENT_ROOT_CATEGORY==3) {
+            if (setup_done==CAMERA_SHOP) {
                 captured_data = ""+eventObj.data.retail.surveys[0];
             }
+            // TODO : add CPG case
         } catch(err) {
             captured_data = "";
         }
@@ -233,7 +261,7 @@ function processLogin(eventObj) {
     } else { // new guy
         console.log("First login [");
 
-        if (CURRENT_ROOT_CATEGORY == 3) { //camera section only
+        if (setup_done == CAMERA_SHOP) { //camera section only
             var params = {
                 data: {
                     login_nb: "1"
@@ -243,8 +271,8 @@ function processLogin(eventObj) {
             params.callback = logMe;
             gigya.accounts.setAccountInfo(params);
         }
-        // TODO: PET ONLY SECTION [
-        if (CURRENT_ROOT_CATEGORY == 9) {
+        // PET ONLY SECTION [
+        if (setup_done == PET_SHOP) {
             var pets = [];
             //creating placeholders for the pets details
             for (i = 0; i < eventObj.data.pet.nb_pets; i++) {
@@ -269,7 +297,7 @@ function processLogin(eventObj) {
             params.callback = logMe;
             gigya.accounts.setAccountInfo(params);
         }
-        // TODO: PET ONLY SECTION ]
+        // PET ONLY SECTION ]
 
         console.log("First login ]");
 
@@ -329,8 +357,8 @@ function loginAndRedirect(url) {
 
 function processPetProPro(index, prefix, screenID){
 
-    // TODO: PET ONLY FUNCTION
-    if (CURRENT_ROOT_CATEGORY == 9) {
+    // PET ONLY FUNCTION
+    if (setup_done == PET_SHOP) {
         var name, breed, type, age;
 
         type = document.getElementById(prefix+'.type').value;
@@ -369,7 +397,7 @@ function processPetProPro(index, prefix, screenID){
 
 function submitProProHandler(eventObj){
 
-    if (CURRENT_ROOT_CATEGORY == 3) {
+    if (setup_done == CAMERA_SHOP) {
         var params = {
             data: {
                 retail: {
@@ -388,12 +416,12 @@ function submitProProHandler(eventObj){
 
 function afterProProHandler(eventObj){
     
-    // TODO: PET ONLY SECTION [
-    if (CURRENT_ROOT_CATEGORY == 9) {
+    // PET ONLY SECTION [
+    if (setup_done == PET_SHOP) {
         // TODO: BUG
         console.log("i should refresh the selector here: "+document.getElementById("nb_pets_select").value);
     }
-    // TODO: PET ONLY SECTION ]
+    // PET ONLY SECTION ]
 }
 
 function logMe(eventObj) {
@@ -444,8 +472,8 @@ function getaccountinfoEventHandler(responseObj){
             jQuery(".skip-account .icon").css("background-position", "0px");        
         }
 
-        // TODO: PET ONLY SECTION [
-        if (CURRENT_ROOT_CATEGORY == 9) {
+        // PET ONLY SECTION [
+        if (setup_done == PET_SHOP) {
 
             if (responseObj.data.last_category=="Cat Food") {
                 document.getElementById('emoji').innerHTML = "🐱&nbsp;&nbsp;"
@@ -455,7 +483,7 @@ function getaccountinfoEventHandler(responseObj){
             // storing pets for later
             pets=responseObj.data.pet.pets;
         }
-        // TODO: PET ONLY SECTION ]
+        // PET ONLY SECTION ]
 
         // checking if the user has a password (will be useful in the account page)
         hasPassword = false;
