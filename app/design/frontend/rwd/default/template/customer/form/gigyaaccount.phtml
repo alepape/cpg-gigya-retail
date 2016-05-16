@@ -1,0 +1,82 @@
+<div class="gigya-screen-set" id="screen-set-a" data-width="800" data-height="400" style="display: none">
+    
+    <!-- Profile update Screen -->
+    <div class="gigya-screen" id="edit-profile1" data-width="auto" data-caption="Account Information" >
+        <form class="gigya-profile-form" data-auto-skip="false" data-on-success-screen="edit-profile1">
+            <div class="gigya-myPhoto" style="float: right; margin-right: 40px; margin-top:-20px">
+              <param name="height" value="200">
+              <param name="width" value="200">
+              <param name="mode" value="upload">
+            </div>
+            <div class ="gigya-container" data-empty-fields="*" style="margin-bottom:10px">
+                <span class="gigya-label-text">First Name</span><br/>
+                <input type="text" name="profile.firstName" class="gigya-input-text">
+                <span class="gigya-error-msg" data-bound-to="profile.firstName"></span>
+            </div>
+            <div class ="gigya-container" data-empty-fields="*" style="margin-bottom:10px">
+                <span class="gigya-label-text">Last Name</span><br/>
+                <input type="text" name="profile.lastName" class="gigya-input-text">
+                <span class="gigya-error-msg" data-bound-to="profile.lastName"></span>
+            </div>
+            <div class ="gigya-container" data-empty-fields="*" style="margin-bottom:10px">
+                <span class="gigya-label-text">Email</span><br/>
+                <input type="text" name="profile.email" class="gigya-input-text">
+                <span class="gigya-error-msg" data-bound-to="profile.email"></span>
+            </div>
+
+            <br/>
+
+            <div class="gigya-layout-row subscribe-wrapper " style="margin-bottom:10px">
+                <!--<div class="gigya-layout-cell" >-->
+                <div class="gigya-composite-control gigya-composite-control-checkbox">
+                  <div class="input-wrapper">
+                    <label class="gigya-label">
+                      <input type="checkbox" class="gigya-input-checkbox" name="data.subscribe"
+                      tabindex="0">
+                      <span class="gigya-label-text gigya-checkbox-text">Subscribe to our newsletter</span>
+                    </label>
+                  </div>
+                  <span class="gigya-error-msg" data-bound-to="data.subscribe"></span>
+                </div>
+                <!--</div>-->
+            </div>
+            <div class="gigya-container" data-condition="data.subscribe==true" style="margin-bottom:10px; ">
+                <span class="gigya-label-text">Select the topics you're interested in:</span><br/>
+                <input type="checkbox" name="data.optins.newgear" style="margin-left:30px"><span class="gigya-label-text">&nbsp;New Products and Accessories</span><br/>
+                <input type="checkbox" name="data.optins.promotions" style="margin-left:30px"><span class="gigya-label-text">&nbsp;Promotions</span><br/>
+                <input type="checkbox" name="data.optins.competitions" style="margin-left:30px"><span class="gigya-label-text">&nbsp;Competitions</span><br/>
+                <input type="checkbox" name="data.optins.partners" style="margin-left:30px"><span class="gigya-label-text">&nbsp;Partners Special Offers</span><br/>
+            </div>
+
+            <br/>
+
+            <div class="gigya-container" data-login-identities="social" style="margin-bottom:10px">
+                <span class="gigya-label-text">Manage your social accounts:</span><br/>
+            </div>
+            <div class="gigya-container" data-login-identities="site-only" style="margin-bottom:10px" >
+                <span class="gigya-label-text" style="width:365px">Adding a social connection to your Gigya Retail account allows you to sign in easily from everywhere without the need to remember your password...<br/><br/>Select your favourite one below and follow the prompt!</span><br/>
+            </div>
+            <div id="social_mgt"></div>
+
+            <div class="gigya-container" style="margin-bottom:10px" id="qrcontainer" style="display: none; visibility: hidden;">
+                <br/>
+                <a class="button" target="_blank" href="javascript:showQR();" >Scan your QRCode</a>
+            </div>
+            <br/>
+<?php if ($_COOKIE["hasPassword"] == "0") { //?>
+            <div class="gigya-container" style="margin-bottom:10px">
+                <a class="gigya-label-text gigya-composite-control-link" target="_blank" href="javascript:createPassword();" style="display: block;">Set a new password for your account</a>
+            </div>
+<?php } else { ?>
+            <div class="gigya-container" style="margin-bottom:10px">
+                <a class="gigya-label-text gigya-composite-control-link" target="_blank" href="javascript:changePassword();" style="display: block;">Change your password</a>
+            </div>
+<?php } ?>
+            <br/>
+            <div class="buttons-set">
+                <button type="submit" value="Save" style="float: right;" class="button">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="qrcode" style="display: none"></div>

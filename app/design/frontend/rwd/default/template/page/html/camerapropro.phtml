@@ -1,0 +1,94 @@
+<div class="gigya-screen-set" id="progressive-profiling" data-width="800" data-height="400" style="display: none">
+    
+    <!-- Profile update Screen -->
+    <div class="gigya-screen" id="photo-capture" data-width="auto" data-caption="More information from you" >
+        <form class="gigya-profile-form" data-on-success-screen="theme-capture" id="photo-capture-form">
+          <!-- new part below -->
+          <div class="gigya-layout-row" style="margin-bottom:20px;">
+            <!--<div class="gigya-layout-cell" >-->
+            <label class="gigya-composite-control gigya-composite-control-label">Thank you for using Gigya Retail.
+              <br/>So we can personalise your experience on Gigya Retail,<br/>can you please tell us a little about yourself?</label><br/>
+          </div>
+          <div class="gigya-layout-row" style="margin-bottom:20px;">
+            <div class="gigya-composite-control gigya-composite-control-dropdown">
+              <label class="gigya-label">
+                <span class="gigya-label-text">First, please confirm what kind of photographer you are:</span>
+                <label class="gigya-required-display" data-bound-to="data.retail.type_photog"
+                style="display: inline-block;">*</label>
+              </label><select style="width:50%" id="type_photog_select" name="data.retail.type_photog" data-display-name=""><option value=""></option><option value="tourist">Tourist</option><option value="casual">Casual</option><option value="amateur">Amateur</option><option value="serious">Serious Hobbyist</option><option value="professional">Professional</option></select>
+              <span class="gigya-error-msg" data-bound-to="data.retail.type_photog"></span>
+            </div>
+            <!--</div>-->
+          </div>
+          <div class="gigya-clear"></div>
+          <div class="gigya-layout-row" style="margin-bottom:20px;">
+            <!--<div class="gigya-layout-cell" style="width: 610px;">-->
+            <div class="gigya-composite-control gigya-composite-control-submit">
+              <input type="submit" class="gigya-input-submit button" style="float:right;" value="Next" tabindex="0">
+            </div>
+            <!--<div class="gigya-layout-cell" style="width: 70px; min-width: 70px;">-->
+            <!--</div>-->
+            <div class="gigya-clear"></div>
+          </div>
+        </form>
+    </div>
+
+    <div class="gigya-screen" id="theme-capture" data-width="auto" data-caption="Photographic Style" >
+        <form class="gigya-profile-form" id="theme-capture-form" >
+          <div class="gigya-container" >
+            <label class="gigya-label">
+              <span class="gigya-label-text">
+                <div style="margin-bottom:10px">Thanks for that.<br/>Now, can you tell us more about your style(s) of photography?</div>
+              </span>
+            </label>
+            <!--</div>-->
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.retail.picture_style.wildlife" data-display-name="">
+              <label class="gigya-label">
+                <span class="gigya-label-text">Wildlife</span>
+                <label class="gigya-required-display" data-bound-to="data.retail.picture_style.wildlife" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.retail.picture_style.portrait" data-display-name="">
+              <label class="gigya-label">
+                <span class="gigya-label-text">Portrait</span>
+                <label class="gigya-required-display" data-bound-to="data.retail.picture_style.portrait" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.retail.picture_style.street" data-display-name="">
+              <label class="gigya-label">
+                <span class="gigya-label-text">Street</span>
+                <label class="gigya-required-display" data-bound-to="data.retail.picture_style.street" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.retail.picture_style.sports" data-display-name="">
+              <label class="gigya-label">
+                <span class="gigya-label-text">Sports</span>
+                <label class="gigya-required-display" data-bound-to="data.retail.picture_style.sports" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.retail.picture_style.landscape" data-display-name="">
+              <label class="gigya-label">
+                <span class="gigya-label-text">Landscape</span>
+                <label class="gigya-required-display" data-bound-to="data.retail.picture_style.landscape" style="display: none;">*</label>
+              </label>
+            </div>
+          </div>            
+          <div class="gigya-clear"></div>
+          <div class="gigya-layout-row" style="margin-bottom:20px;">
+            <!--<div class="gigya-layout-cell" style="width: 610px;">-->
+            <div class="gigya-composite-control gigya-composite-control-submit">
+              <input type="submit" class="gigya-input-submit button" style="float:right;" value="Save" tabindex="0">
+            </div>
+            <!--<div class="gigya-layout-cell" style="width: 70px; min-width: 70px;">-->
+            <!--</div>-->
+            <div class="gigya-clear"></div>
+          </div>
+        </form>
+    </div>
+
+</div>
