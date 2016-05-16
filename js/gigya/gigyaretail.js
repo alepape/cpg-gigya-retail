@@ -85,7 +85,7 @@ function setupWhichStore(){
         }
 
         // generic site
-        switch () {
+        switch (CURRENT_ROOT_CATEGORY) {
         case 3:
             setupCameraStore();
             break;
