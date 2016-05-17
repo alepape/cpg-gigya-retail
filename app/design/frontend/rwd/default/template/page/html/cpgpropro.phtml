@@ -1,0 +1,181 @@
+<div class="gigya-screen-set" id="progressive-profiling" data-width="800" data-height="400" style="display: none">
+    
+    <!-- Profile update Screen -->
+    <div class="gigya-screen" id="skin-capture" data-width="auto" data-caption="More information from you" >
+        <form class="gigya-profile-form" data-on-success-screen="lipstick-capture" id="skin-capture-form">
+          <!-- new part below -->
+          <div class="gigya-layout-row" style="margin-bottom:20px;">
+            <!--<div class="gigya-layout-cell" >-->
+            <label class="gigya-composite-control gigya-composite-control-label">Thank you for using Gigya Retail.
+              <br/>So we can personalise your experience on Gigya Retail,<br/>can you please tell us a little about yourself?</label><br/>
+          </div>
+          <div class="gigya-layout-row" style="margin-bottom:20px;">
+            <div class="gigya-composite-control gigya-composite-control-dropdown">
+              <label class="gigya-label">
+                <span class="gigya-label-text">First, please confirm what skin tone foundation you prefer:</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.skin_tone"
+                style="display: inline-block;">*</label>
+              </label><select style="width:50%" id="skin_tone_select" name="data.makeup.skin_tone" data-display-name="">
+                <option value=""></option>
+                <option value="005">005 - Beige Ivoire</option>
+                <option value="007">007 - Beige Rosé</option>
+                <option value="010">010 - Beige Porcelaine</option>
+                <option value="01">01 - Beige Albâtre</option>
+                <option value="02">02 - Lys Rose</option></select>
+                <option value="025">025 - Beige Lin</option></select>
+                <option value="03">03 - Beige Diaphane</option></select>
+                <option value="032">032 - Beige Cendré</option></select>
+                <option value="035">035 - Beige Doré</option></select>
+                <option value="038">038 - Beige Cuivré</option></select>
+                <option value="04">04 - Beige Nature</option></select>
+                <option value="045">045 - Sable Beige</option></select>
+                <option value="048">048 - Beige Châtaigne</option></select>
+                <option value="05">05 - Beige Noisette</option></select>
+                <option value="055">055 - Beige Idéal</option></select>
+                <option value="06">06 - Beige Cannelle</option></select>
+                <option value="10">10 - Beige Praline</option></select>
+                <option value="11">11 - Muscade</option></select>
+                <option value="12">12 - Ambre</option></select>
+                <option value="13">13 - Sienne</option></select>
+                <option value="14">14 - Brownie</option></select>
+                <option value="15">15 - Acajou</option></select>
+                <option value="16">16 - Café</option></select>
+              <span class="gigya-error-msg" data-bound-to="data.makeup.skin_tone"></span>
+            </div>
+            <!--</div>-->
+          </div>
+          <div class="gigya-clear"></div>
+          <div class="gigya-layout-row" style="margin-bottom:20px;">
+            <!--<div class="gigya-layout-cell" style="width: 610px;">-->
+            <div class="gigya-composite-control gigya-composite-control-submit">
+              <input type="submit" class="gigya-input-submit button" style="float:right;" value="Next" tabindex="0">
+            </div>
+            <!--<div class="gigya-layout-cell" style="width: 70px; min-width: 70px;">-->
+            <!--</div>-->
+            <div class="gigya-clear"></div>
+          </div>
+        </form>
+    </div>
+
+    <div class="gigya-screen" id="lipstick-capture" data-width="auto" data-caption="Your lipstick this summer" >
+        <form class="gigya-profile-form" id="lipstick-capture-form" >
+          <div class="gigya-container" >
+            <label class="gigya-label">
+              <span class="gigya-label-text">
+                <div style="margin-bottom:10px">Thanks for that.<br/>Now, can you tell us more about your style(s) of photography?</div>
+              </span>
+            </label>
+            <!--</div>-->
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.102" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #ff4524">&#9679;&nbsp;</span><span class="gigya-label-text">102 Apricute</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.102" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.142" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #ff9984">&#9679;&nbsp;</span><span class="gigya-label-text">142 Freedom of Peach</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.142" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.151" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #c5001e">&#9679;&nbsp;</span><span class="gigya-label-text">151 Cherry Symphony</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.151" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.154" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #f32321">&#9679;&nbsp;</span><span class="gigya-label-text">154 Great Fruit</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.154" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.166" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #d11f10">&#9679;&nbsp;</span><span class="gigya-label-text">166 Walk the Lime</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.166" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.252" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #d35555">&#9679;&nbsp;</span><span class="gigya-label-text">252 Vanilla Pop</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.252" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.283" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #e640a5">&#9679;&nbsp;</span><span class="gigya-label-text">283 Berry in Love</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.283" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.300" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #ff83a3">&#9679;&nbsp;</span><span class="gigya-label-text">300 Lemon Explosion</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.300" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.301" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #ff74a2">&#9679;&nbsp;</span><span class="gigya-label-text">301 Meli Melon</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.301" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.313" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #ff9cc5">&#9679;&nbsp;</span><span class="gigya-label-text">313 Boomeringue</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.313" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.352" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #ff415d">&#9679;&nbsp;</span><span class="gigya-label-text">352 Wonder Melon</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.352" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.372" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #ff305c">&#9679;&nbsp;</span><span class="gigya-label-text">372 Berry Tale</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.372" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.381" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #fb0348">&#9679;&nbsp;</span><span class="gigya-label-text">381 Mangoes Wild</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.381" style="display: none;">*</label>
+              </label>
+            </div>
+            <div class="gigya-composite-control gigya-composite-control-checkbox">
+              <input type="checkbox" class="gigya-input-checkbox" name="data.makeup.lipstick.400" data-display-name="">
+              <label class="gigya-label">
+                <span style="color: #8be2f5">&#9679;&nbsp;</span><span class="gigya-label-text">400 Mint to Be</span>
+                <label class="gigya-required-display" data-bound-to="data.makeup.lipstick.400" style="display: none;">*</label>
+              </label>
+            </div>
+          </div>            
+          <div class="gigya-clear"></div>
+          <div class="gigya-layout-row" style="margin-bottom:20px;">
+            <!--<div class="gigya-layout-cell" style="width: 610px;">-->
+            <div class="gigya-composite-control gigya-composite-control-submit">
+              <input type="submit" class="gigya-input-submit button" style="float:right;" value="Save" tabindex="0">
+            </div>
+            <!--<div class="gigya-layout-cell" style="width: 70px; min-width: 70px;">-->
+            <!--</div>-->
+            <div class="gigya-clear"></div>
+          </div>
+        </form>
+    </div>
+
+</div>
