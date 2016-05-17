@@ -214,7 +214,9 @@ function processLogin(eventObj) {
             if (setup_done==CAMERA_SHOP) {
                 captured_data = ""+eventObj.data.retail.surveys[0];
             }
-            // TODO : add CPG case
+            if (setup_done==CPG_SHOP) {
+                captured_data = ""+eventObj.data.makeup.surveys[0];
+            }
         } catch(err) {
             captured_data = "";
         }
@@ -261,7 +263,7 @@ function processLogin(eventObj) {
     } else { // new guy
         console.log("First login [");
 
-        if (setup_done == CAMERA_SHOP) { //camera section only
+        if ((setup_done == CAMERA_SHOP)||(setup_done == CPG_SHOP)) { //camera or CPG section only
             var params = {
                 data: {
                     login_nb: "1"
@@ -403,6 +405,21 @@ function submitProProHandler(eventObj){
                 retail: {
                     surveys: [
                         "picture_style"
+                    ]
+                }
+            }
+        };
+
+        params.callback = logMe;
+        gigya.accounts.setAccountInfo(params);
+    }
+
+    if (setup_done == CPG_SHOP) {
+        var params = {
+            data: {
+                retail: {
+                    surveys: [
+                        "lipstick"
                     ]
                 }
             }
