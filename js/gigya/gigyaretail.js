@@ -40,7 +40,7 @@ var isMobile = false; //initiate as false
 function setupCpgStore(){
     console.log('CPG STORE');
     loginSSet = "CPG-RegistrationLogin";
-    proproSSet = "progressive-profiling"; 
+    proproSSet = "cpg-progressive-profiling"; 
     proproStartScreen = "skin-capture"; 
     profileSSet = "CPG-ProfileUpdate";
     embedProfileSSet = "screen-set-a";
@@ -211,14 +211,13 @@ function processLogin(eventObj) {
             if (setup_done==PET_SHOP) {
                 captured_data = ""+eventObj.data.pet.pets[0].name;
             }
-            if (setup_done==CAMERA_SHOP) {
+            if ((setup_done == CAMERA_SHOP)||(setup_done == CPG_SHOP)) {
                 captured_data = ""+eventObj.data.retail.surveys[0];
             }
-            if (setup_done==CPG_SHOP) {
-                captured_data = ""+eventObj.data.makeup.surveys[0];
-            }
+            console.log(captured_data);
         } catch(err) {
             captured_data = "";
+            console.log("empty captured_data");
         }
 
         // STEP 2: add the nb login logic

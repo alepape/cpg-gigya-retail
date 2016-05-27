@@ -111,8 +111,9 @@
 if (Mage::app()->getStore()->getRootCategoryId() == 9) { // pet
   include 'petpropro.phtml';
 }
-if (Mage::app()->getStore()->getRootCategoryId() == 3) { // camera
-  include 'camerapropro.phtml';
+if (Mage::app()->getStore()->getRootCategoryId() == 3) { // camera and/or cpg
+  //include 'camerapropro.phtml';
+  include 'cpgpropro.phtml'; //including both for now... bad idea
 }
 ?>
 
