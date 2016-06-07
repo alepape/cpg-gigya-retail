@@ -10,7 +10,9 @@ var pagetype = '';
 var hasPassword;
 var isLoggedIn;
 var gUID;
+var customData;
 var qrcode = null;
+var reco = "[]";
 
 // PETS only
 var pets = [];
@@ -134,7 +136,7 @@ jQuery(document).ready(function () {
         callback: getaccountinfoEventHandler
     });
 
-    console.log('should be doing my thing here...');
+    console.log('starting page dependant customisation');
 
     //page customisation
     if (document.getElementsByClassName('checkout-onepage-index').length > 0) {
@@ -167,23 +169,7 @@ jQuery(document).ready(function () {
 
     }
 
-    if (document.getElementsByClassName('my-wishlist').length > 0) {
-        pagetype = 'wishlist';
-        console.log('wishlist!!');
-        // TODO: only if we have a session - which is not trivial as we are in onload only - no call to getaccountinfo yet [[
-        if (true) {
-            console.log("wishlist store: "+CURRENT_WISHLIST.items);
-            var params = {
-                data: {
-                    wishlist: CURRENT_WISHLIST
-                }
-            };
-            params.callback = logMe;
-            gigya.accounts.setAccountInfo(params);
-        }
-        // ]]
-    }
-    console.log('done my thiiiing!');
+    console.log('page customisation done');
 
 });
 
@@ -246,14 +232,7 @@ function processLogin(eventObj) {
 
 
         // TEMP TEST FRIENDS [[
-
-        /*params = {
-            detailLevel: "extended",
-            siteUsersOnly: true,
-            callback: manageFriends
-        }
-        gigya.socialize.getFriendsInfo(params);*/
-
+        test4friends();
         // ]]
 
 
@@ -305,6 +284,16 @@ function processLogin(eventObj) {
     }
 }
 
+function test4friends() {
+    console.log("checking for friends");
+    params = {
+        detailLevel: "extended",
+        siteUsersOnly: true,
+        callback: manageFriends
+    }
+    gigya.socialize.getFriendsInfo(params);
+}
+
 function manageFriends(responseObj) {
     var loc = window.location;
     var trueBaseUrl = loc.protocol + "//" + loc.host + "/";
@@ -319,9 +308,9 @@ function manageFriends(responseObj) {
     }
     friendsList = friendsList.slice(0, -1);
 
-    query = "select profile.email, data.retail.type_photog, data.wishlist from accounts where UID in ("+friendsList+")";
+    query = "select profile.email, data.heatmap.item, data.heatmap.score from accounts where UID in ("+friendsList+")";
     exptime = new Date().getTime();
-    /*
+    
     var url = trueBaseUrl + 'ws/generateQuerySig.php?query=' + encodeURIComponent(query) + "&exptime=" + exptime;
 
     new Ajax.Request(url, {
@@ -333,12 +322,29 @@ function manageFriends(responseObj) {
                 querySig: trans.responseText,
                 expTime: exptime,
                 callback: function (responseObj) {
-                    console.log(responseObj);
+                    if (responseObj.objectsCount > 0) {
+                        consolidateHeatMap(responseObj.results);
+                    }
                 }
             }
             gigya.accounts.search(params);
         }
-    });*/
+    });
+}
+
+function consolidateHeatMap(results) {
+    chm = JSON.parse(reco);
+    for (i=0; i<results.length; i++) { 
+        if (results[i].data != undefined) {
+            for (j=0; j<results[i].data.heatmap.length; j++) { 
+                chm = chm.concat(results[i].data.heatmap[j].item);
+            }
+        }
+    }
+    console.log("consolidated heat map");
+    console.log(chm);
+    reco = JSON.stringify(chm);
+    setCookie("reco", reco, 1);
 }
 
 function loginAndRedirect(url) {
@@ -464,6 +470,7 @@ function getaccountinfoEventHandler(responseObj){
         console.log(responseObj.profile.firstName + " is in");
         isLoggedIn = true;
         gUID = responseObj.UID;
+        customData = responseObj.data;
 
         if (getCookie("loginEvent")=="true") {
             console.log("ALP: this is a new login, not an existing session");
@@ -526,8 +533,55 @@ function getaccountinfoEventHandler(responseObj){
             }
         }
 
+        if (document.getElementsByClassName('my-wishlist').length > 0) {
+            pagetype = 'wishlist';
+            console.log('wishlist!!');
+            // TODO: only if we have a session - which is not trivial as we are in onload only - no call to getaccountinfo yet [[
+            if (CURRENT_WISHLIST != undefined) {
+                console.log("wishlist store: ");
+                console.log(CURRENT_WISHLIST.items);
+                var params = {
+                    data: {
+                        wishlist: CURRENT_WISHLIST,
+                        //context: customData.wishlist
+                    }
+                };
+
+                if (customData && customData.wishlist) {
+                    params.context = customData.wishlist;
+                }
+
+                params.callback = checkWishlistForNewItem;
+                gigya.accounts.setAccountInfo(params);
+            }
+            // ]]
+        }
 
 
+    }
+}
+
+function checkWishlistForNewItem(eventObj) {
+
+    var pid = null;
+    var prevWL = eventObj.context;
+    
+    if (CURRENT_WISHLIST != undefined) {
+        // we have a session and a new wishlist.
+        if (prevWL != undefined) {
+            // we have a previous one - we need to compare
+            if (CURRENT_WISHLIST.totalRecords > prevWL.totalRecords) {
+                // new item = last!
+                pid = CURRENT_WISHLIST.items[CURRENT_WISHLIST.totalRecords - 1]['product_id'];
+            }
+        } else {
+            // it's the first item!
+            pid = CURRENT_WISHLIST.items[0]['product_id'];
+        }
+    }
+
+    if (pid) {
+        increaseHM(pid, 1);
     }
 }
 
@@ -723,6 +777,8 @@ function showRatings() {
         streamID: CURRENT_PRODUCT_INFO['sku'], // REPLACE WITH PRODUCT ID - tick
         version: 2,
         userHiResIcons: true,
+        context: CURRENT_PRODUCT_INFO,
+        onCommentSubmitted: commentPosted,
         onLoad: commentsShown
     };
 
@@ -763,6 +819,49 @@ function commentsShown(eventObj) {
         "width": "100px",
         "height": "20px"
     });
+}
+
+function commentPosted(eventObj) {
+    var rating = eventObj.comment.ratings['_overall'];
+    var pid = eventObj.context.product_id;
+    console.log("commentPosted about product ID = "+pid+" w/ rating of "+rating);
+    if (rating > 3) {
+        increaseHM(pid, 2);
+    } else {
+        console.log("Score too small - no heatmap impact!");
+    }
+}
+
+function increaseHM(pid, value) {
+    // first, parse the current heatmap:
+    hm = customData.heatmap;
+
+    if (hm == undefined) {
+        hm = JSON.parse('[{"item":"'+pid+'", "score": 0}]');
+    }
+    flag = true;
+    for(var i = 0; i < hm.length; i++) {
+        var obj = hm[i];
+        if (obj.item == pid) {
+            obj.score+=value;
+            flag = false;
+            break;
+        }
+    }
+    if (flag) {
+        hm.push(JSON.parse('{"item":"'+pid+'", "score": '+value+'}'));
+    }
+
+    console.log("new heat map:");
+    console.log(hm);
+
+    var params = {
+        data: {
+            heatmap: hm
+        }
+    };
+    params.callback = logMe;
+    gigya.accounts.setAccountInfo(params);
 }
 
 // COOKIE MGT METHODS

@@ -193,6 +193,7 @@
   $config['name'] = $_product->getName();
   $config['price'] = number_format($_product->getPrice(), 2);
   $config['sku'] = $_product->getSku();
+  $config['product_id'] = $_product->getId();
   $config['manufacturer'] = $_product->getAttributeText('manufacturer');
   $config['category'] = Mage::getModel('catalog/category')->load(end($_product->getCategoryIds()))->getName();
 
