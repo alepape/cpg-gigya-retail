@@ -39,6 +39,9 @@ var exptime = null;
 // Mobile mgt
 var isMobile = false; //initiate as false
 
+// QRcode mgt
+var qr_content = JSON.parse('{"uid": "", "sig": "", "ts": ""}');
+
 function setupCpgStore(){
     console.log('CPG STORE');
     loginSSet = "CPG-RegistrationLogin";
@@ -644,19 +647,46 @@ function showCustomProfileUpdate() {
 // UTIL METHODS FOR REGO / CIAM USE CASES
 
 function showQR() {
-    if (qrcode != null) {
-        qrcode.clear();
-        qrcode.makeCode(gUID);
-    } else {
-        qrcode = new QRCode(document.getElementById("qrcode"), gUID);
-        jQuery("#qrcode").css({"position": "fixed", "top": "20%", "left": "15%", "right": "15%"});
-        jQuery("#qrcode").click(hideQR);
-    }
-    jQuery("#qrcode").show();
+
+    //build the main string
+    qr_content.uid = gUID;
+    var exptime = new Date().getTime();
+    qr_content.ts = exptime;
+
+    var loc = window.location;
+    var trueBaseUrl = loc.protocol + "//" + loc.host + "/";
+    var url = trueBaseUrl + 'ws/generateUIDSig2.php?uid=' + gUID + '&ts=' + exptime;
+
+    console.log(url);
+
+    new Ajax.Request(url, {
+        onSuccess: function (trans) {
+            console.log(qr_content);
+            sig = trans.responseText;
+            qr_content.sig = sig;
+            console.log(qr_content);
+
+            if (qrcode != null) {
+                qrcode.clear();
+                qrcode.makeCode(JSON.stringify(qr_content));
+            } else {
+                qrcode = new QRCode(document.getElementById("qrcode"), JSON.stringify(qr_content));
+                //jQuery("#qrcode").css({"position": "fixed", "top": "20%", "left": "15%", "right": "15%"});
+                jQuery("#qrcode").click(hideQR);
+            }
+            jQuery("#overlay-back").show();
+            jQuery("#qrcode").show();            
+        },
+        onFailure: function (trans) {
+            console.log(trans);
+        }
+    });
+
 }
 
 function hideQR(eventObj) {
     jQuery("#qrcode").hide();
+    jQuery("#overlay-back").hide();
 }
 
 function triggerSeconAuth() {
